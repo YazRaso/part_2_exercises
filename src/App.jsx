@@ -1,62 +1,44 @@
-const Part = ({name, exercises}) => {
-  return <p>{name} {exercises}</p>
-}
-const Course = ({course_name, parts}) => {
-  return (
-      <div>
-        <h3>{course_name}</h3>
-        {parts.map((part) => (
-          <Part key={part.id} name={part.name} exercises={part.exercises} />
-        ))}
-        <Total parts={parts} />
-      </div>
-  )
-}
-const Total = ({ parts }) => {
-  return(
-  <p><b>total of {parts.reduce((accumulator, part) => accumulator + part.exercises, 0)} exercises</b></p>
-  )
-}
-const App = () => {
-  const courses = [{
-    course_name: 'Half Stack application development' , 
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id: 3
-      }
-    ]
-  },
-  {
-  course_name: 'Node.js',
-  parts: [
-    {
-      name: 'Routing',
-      exercises: 3
-    },
-    {
-      name: 'Middlewares',
-      exercises: 7
-    }
-  ]
-}]
+import { useState } from 'react'
 
-  return(
-      <div>
-        <h1>Web development curriculum</h1>
-        {courses.map(Course)}
-      </div>
+const App = () => {
+  const [persons, setPersons] = useState([
+    
+  ]) 
+  const [newName, setNewName] = useState('')
+  const handleAddName = (event) => {
+    console.log(event.target.value)
+    setNewName(event.target.value)
+  }
+  const addNumber = (event) => {
+    event.preventDefault()
+    const book = persons.concat(newName)
+    setPersons(book)
+    console.log(persons.length)
+  }
+  const show = (person, index) => {
+    return(
+    <li key={index}>
+      {person}
+    </li>
+    )
+  }
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <form onSubmit={addNumber}>
+        <div>
+          name: <input onChange={handleAddName}/>
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+      <ul>
+      {persons.map((person, index) => show(person,index))}
+      </ul>
+    </div>
   )
 }
+
 export default App
